@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="entertainer" class="additionals.Entertainer"/>
     <bean id="duke" class="prformers.Juggler"/>
     <bean id="sonet29" class="additionals.Sonet29"/>
     <bean id="John" class="prformers.PoeticJuggler">
         <constructor-arg value="123"/>
         <constructor-arg ref="sonet29"/>
+    </bean>
+
+    <bean id="kenny" class="prformers.Instrumentalist">
+        <constructor-arg value="Jingle Bels"/>
+        <constructor-arg ref="guitar"/>
+    </bean>
+
+
+    <bean id="guitar" class="additionals.intruments.Guitar"/>
+    <bean id="piano" class="additionals.intruments.Piano"/>
+    <bean id="harmonica" class="additionals.intruments.Harmonica"/>
+    <bean id="cymbal" class="additionals.intruments.Cymbal"/>
+
+    <bean id="hank" class="prformers.OneManBand">
+        <property name="instruments">
+            <list>
+                <ref bean="guitar"/>
+                <ref bean="piano"/>
+                <ref bean="harmonica"/>
+                <ref bean="cymbal"/>
+            </list>
+        </property>
     </bean>
 
 

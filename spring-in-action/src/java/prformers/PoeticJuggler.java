@@ -13,7 +13,7 @@ public class PoeticJuggler extends Juggler {
 
     @Override
     public void perform() throws PerformanceException {
-        System.out.println("Juggling " + balls  + " while reciting:");
+        System.out.println("Juggling " + balls + " while reciting:");
         poem.recite();
     }
 }
