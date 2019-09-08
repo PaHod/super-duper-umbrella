@@ -1,6 +1,6 @@
 package additionals;
 
-import prformers.Performer;
+import performers.Performer;
 
 import java.util.Map;
 

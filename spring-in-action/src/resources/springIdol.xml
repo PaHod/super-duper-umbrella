@@ -5,33 +5,50 @@
  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="entertainer" class="additionals.Entertainer"/>
-    <bean id="duke" class="prformers.Juggler"/>
+    <bean id="duke" class="performers.Juggler"/>
     <bean id="sonet29" class="additionals.Sonet29"/>
-    <bean id="John" class="prformers.PoeticJuggler">
+    <bean id="john" class="performers.PoeticJuggler">
         <constructor-arg value="123"/>
         <constructor-arg ref="sonet29"/>
     </bean>
 
-    <bean id="kenny" class="prformers.Instrumentalist">
+    <bean id="kenny" class="performers.Instrumentalist">
         <constructor-arg value="Jingle Bels"/>
         <constructor-arg ref="guitar"/>
     </bean>
 
-
     <bean id="guitar" class="additionals.intruments.Guitar"/>
+
+
     <bean id="piano" class="additionals.intruments.Piano"/>
     <bean id="harmonica" class="additionals.intruments.Harmonica"/>
     <bean id="cymbal" class="additionals.intruments.Cymbal"/>
-
-    <bean id="hank" class="prformers.OneManBand">
+    <bean id="hank" class="performers.OneManBand">
         <property name="instruments">
-            <list>
-                <ref bean="guitar"/>
-                <ref bean="piano"/>
-                <ref bean="harmonica"/>
-                <ref bean="cymbal"/>
-            </list>
+            <map>
+                <entry key="guitar" value-ref="guitar"/>
+                <entry key="piano" value-ref="piano"/>
+                <entry key="harmonica" value-ref="harmonica"/>
+                <entry key="cymbal" value-ref="cymbal"/>
+            </map>
         </property>
+    </bean>
+
+    <bean id="captan" class="performers.OneManBand">
+        <property name="instruments">
+            <props>
+                <prop key="guitar">GUITAR GUITAR GUITAR</prop>
+                <prop key="piano">PIANO PIANO PIANO</prop>
+                <prop key="harmonica">HARMONICA HARMONICA HARMONICA</prop>
+                <prop key="cymbal">CYMBAL CYMBAL CYMBAL</prop>
+            </props>
+
+        </property>
+    </bean>
+
+    <bean id="Carl" class="performers.Instrumentalist">
+        <property name="song" value="#{john.poem.getText()}"/>
+        <property name="instrument" value="#{kenny.instrument}"/>
     </bean>
 
 

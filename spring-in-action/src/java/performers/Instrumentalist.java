@@ -1,4 +1,4 @@
-package prformers;
+package performers;
 
 import additionals.intruments.Instrument;
 import exceptions.PerformanceException;
@@ -6,8 +6,11 @@ import exceptions.PerformanceException;
 
 public class Instrumentalist implements Performer {
 
-    private String song;
-    private Instrument instrument;
+    public String song;
+    public Instrument instrument;
+
+    public Instrumentalist() {
+    }
 
     public Instrumentalist(String song, Instrument instrument) {
         this.song = song;

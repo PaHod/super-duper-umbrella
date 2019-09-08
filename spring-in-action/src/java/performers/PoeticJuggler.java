@@ -1,10 +1,10 @@
-package prformers;
+package performers;
 
 import additionals.Poem;
 import exceptions.PerformanceException;
 
 public class PoeticJuggler extends Juggler {
-    Poem poem;
+    public Poem poem;
 
     public PoeticJuggler(int balls, Poem poem) {
         super(balls);

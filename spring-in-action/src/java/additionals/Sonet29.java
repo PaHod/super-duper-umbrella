@@ -17,4 +17,15 @@ public class Sonet29 implements Poem {
             System.out.println(line);
         }
     }
+
+    @Override
+    public String getText() {
+        StringBuilder builder = new StringBuilder();
+        for (String line : LINES) {
+            builder.append(line);
+            builder.append("\n");
+        }
+
+        return builder.toString();
+    }
 }

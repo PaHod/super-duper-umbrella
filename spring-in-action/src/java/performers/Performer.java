@@ -1,4 +1,4 @@
-package prformers;
+package performers;
 
 import exceptions.PerformanceException;
 

@@ -1,7 +1,7 @@
 import additionals.Entertainer;
 import exceptions.PerformanceException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import prformers.Performer;
+import performers.Performer;
 
 import java.util.Map;
 
