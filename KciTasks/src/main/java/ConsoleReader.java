@@ -1,7 +1,7 @@
 import java.sql.*;
 import java.util.Scanner;
 
-public class EntryPoint {
+public class ConsoleReader {
 
     private static Connection connection;
     private static Scanner scanner;
