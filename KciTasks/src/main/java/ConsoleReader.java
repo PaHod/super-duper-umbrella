@@ -3,13 +3,12 @@ import java.util.Scanner;
 
 public class ConsoleReader {
 
+    private static final String CREATE_CMD = "create";
+    private static final String READ_CMD = "read";
+    private static final String UPDATE_CMD = "update";
     private static Connection connection;
     private static Scanner scanner;
     private static Statement statement;
-
-    public enum CMD {
-        CREATE, READ, UPDATE
-    }
 
     public static void main(String[] args) {
         initConnection();
@@ -24,8 +23,6 @@ public class ConsoleReader {
         if (scanner.hasNext()) {
             String next = scanner.nextLine();
             parseCommand(next);
-//        parseCommand("create");
-//        parseCommand("read");
         }
     }
 
@@ -41,35 +38,27 @@ public class ConsoleReader {
             statement.execute("INSERT INTO Person values (2, 'Petia', 321)");
             statement.execute("INSERT INTO Person values (2, 'Tania', 123)");
 
-//            printTable();
-//            closeStatement();
+            printTable();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private static void closeStatement() throws SQLException {
-        statement.close();
-        statement = null;
+    private static void parseCommand(String next) {
+        next = next.toLowerCase();
+        if (CREATE_CMD.equals(next)) {
+            createCmd();
+        } else if (READ_CMD.equals(next)) {
+            readCmd();
+        } else if (UPDATE_CMD.equals(next)) {
+            updateCmd();
+        } else {
+            System.out.println("No such command.");
+            listen();
+        }
     }
 
-    private static void parseCommand(String next) {
-        CMD cmd = CMD.valueOf(next.toUpperCase());
-
-
-        switch (cmd) {
-            case CREATE:
-                createCmd();
-                break;
-            case READ:
-                readCmd();
-                break;
-            case UPDATE:
-                break;
-
-
-        }
-
+    private static void updateCmd() {
 
     }
 
@@ -79,26 +68,26 @@ public class ConsoleReader {
                 "2 - Name;\n" +
                 "3 - Age;");
         int num = scanner.nextInt();
-        String type = null;
+        String readBy = null;
 
         switch (num) {
             case 1:
-                type = "id";
+                readBy = "id";
                 break;
             case 2:
-                type = "name";
+                readBy = "name";
                 break;
             case 3:
-                type = "age";
+                readBy = "age";
                 break;
         }
 
 
-        System.out.println("enter " + type + ": ");
+        System.out.println("enter " + readBy + ": ");
         String value = scanner.next();
 
         try {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM Person WHERE " + type + " = '" + value + "'");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Person WHERE " + readBy + " = '" + value + "'");
 
             while (resultSet.next()) {
                 System.out.println("id: " + resultSet.getString("id") +
@@ -122,15 +111,12 @@ public class ConsoleReader {
         System.out.print("\nAge: ");
         int age = scanner.nextInt();
         try {
-//            statement = connection.createStatement();
             statement.execute("INSERT INTO Person values ('" + id + "', '" + name + "', '" + age + "')");
             printTable();
-            closeStatement();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
+        listen();
     }
 
 
