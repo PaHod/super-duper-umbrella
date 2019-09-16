@@ -3,12 +3,12 @@ import java.util.Scanner;
 
 public class ConsoleReader {
 
-    private static final String CREATE_CMD = "create";
-    private static final String READ_CMD = "read";
-    private static final String UPDATE_CMD = "update";
-    private static Connection connection;
-    private static Scanner scanner;
-    private static Statement statement;
+    protected static final String CREATE_CMD = "create";
+    protected static final String READ_CMD = "read";
+    protected static final String UPDATE_CMD = "update";
+    protected static Connection connection;
+    protected static Scanner scanner;
+    protected static Statement statement;
 
     public static void main(String[] args) {
         initConnection();
@@ -18,7 +18,7 @@ public class ConsoleReader {
 
     }
 
-    private static void listen() {
+    protected static void listen() {
         System.out.println("Type command create, read, update");
         if (scanner.hasNext()) {
             String next = scanner.nextLine();
@@ -26,7 +26,7 @@ public class ConsoleReader {
         }
     }
 
-    private static void initConnection() {
+    protected static void initConnection() {
         try {
             connection = DriverManager.getConnection("jdbc:h2:mem:test", "sa", "");
 
@@ -44,7 +44,7 @@ public class ConsoleReader {
         }
     }
 
-    private static void parseCommand(String next) {
+    protected static void parseCommand(String next) {
         next = next.toLowerCase();
         if (CREATE_CMD.equals(next)) {
             createCmd();
@@ -58,11 +58,11 @@ public class ConsoleReader {
         }
     }
 
-    private static void updateCmd() {
+    protected static void updateCmd() {
 
     }
 
-    private static void readCmd() {
+    protected static void readCmd() {
         System.out.println("Read user by:");
         System.out.println("1 - Id;\n" +
                 "2 - Name;\n" +
@@ -102,7 +102,7 @@ public class ConsoleReader {
         listen();
     }
 
-    private static void createCmd() {
+    protected static void createCmd() {
         System.out.println("Create new user:");
         System.out.print("Id: ");
         int id = scanner.nextInt();
@@ -120,7 +120,7 @@ public class ConsoleReader {
     }
 
 
-    private static void printTable() throws SQLException {
+    protected static void printTable() throws SQLException {
         ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM Person");
         while (resultSet.next()) {
             System.out.println("id: " + resultSet.getString("id") +

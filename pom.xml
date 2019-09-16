@@ -4,15 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>sdu</groupId>
-    <artifactId>sdu</artifactId>
+    <groupId>super-duper-umbrella</groupId>
+    <artifactId>super-duper-umbrella-main</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
 
     <modules>
-        <module>KciTasks</module>
+        <module>console-reader</module>
         <module>share-password-maven</module>
         <module>spring-in-action</module>
+        <module>spring-console-reader</module>
     </modules>
 
 </project>

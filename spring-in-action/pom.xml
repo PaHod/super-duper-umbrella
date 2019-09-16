@@ -7,6 +7,13 @@
     <groupId>spring-in-action</groupId>
     <artifactId>spring-in-action</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>LATEST</version>
+        </dependency>
+    </dependencies>
 
 </project>
 
