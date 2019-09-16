@@ -5,20 +5,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean id="propertyFile" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations" value="connection.properties"/>
+        <property name="locations" value="h2.connection.properties"/>
     </bean>
 
-    <context:property-placeholder location="connection.properties"/>
+    <context:property-placeholder location="#{systemProperties['DATABASE']?:'h2.connection.properties'}"/>
 
-    <bean id="data-source" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${h2.driverClassName}"/>
-        <property name="url"      value="${h2.url}"/>
-        <property name="username" value="${h2.username}"/>
-        <property name="password" value="${h2.password}"/>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${connection.driverClassName}"/>
+        <property name="url"      value="${connection.url}"/>
+        <property name="username" value="${connection.username}"/>
+        <property name="password" value="${connection.password}"/>
     </bean>
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="data-source"/>
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <bean id="dataBaseController" class="DataBaseController"/>

@@ -1,20 +1,23 @@
 package people;
 
-
-public class People {
+public class Person {
      private int id;
      private String name;
      private int age;
 
-     public People(int id, String name, int age) {
+     public Person(int id, String name, int age) {
           this.id = id;
           this.name = name;
           this.age = age;
      }
 
-     @Override
+    public Person() {
+
+    }
+
+    @Override
      public String toString() {
-          return "People{id=" + id + ", name='" + name + '\'' + ", age=" + age + '}';
+          return "Person{id=" + id + ", name='" + name + '\'' + ", age=" + age + '}';
      }
 
      public int getId() {

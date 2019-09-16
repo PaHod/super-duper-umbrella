@@ -1,20 +1,18 @@
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 
-public abstract class ConsoleReader {
+public abstract class AbstractConsoleReader {
 
     protected static final String CREATE_CMD = "create";
     protected static final String READ_CMD = "read";
     protected static final String UPDATE_CMD = "update";
     protected static Scanner scanner;
+    protected static AbstractConsoleReader instance;
 
-    public ConsoleReader() {
+    public AbstractConsoleReader() {
         initConnection();
-        initScanner();
-        listen();
+//        initScanner();
+//        listen();
     }
-
 
     protected abstract void initConnection();
 
@@ -24,7 +22,7 @@ public abstract class ConsoleReader {
 
     protected void listen() {
         System.out.println("Type command create, read, update");
-        if (scanner.hasNext()) {
+        while (scanner.hasNext()) {
             String next = scanner.nextLine();
             parseCommand(next);
         }
@@ -40,7 +38,7 @@ public abstract class ConsoleReader {
             proceedUpdateCmd();
         } else {
             System.out.println("No such command.");
-            listen();
+//            listen();
         }
     }
 
@@ -52,24 +50,13 @@ public abstract class ConsoleReader {
         String name = scanner.next();
         System.out.print("\nAge: ");
         int age = scanner.nextInt();
-        addPeople(id, name, age);
-        listen();
-    }
-
-    protected void addPeople(int id, String name, int age) {
-        try {
-            statement.execute("INSERT INTO Person values ('" + id + "', '" + name + "', '" + age + "')");
-            printTable();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        addPerson(id, name, age);
+//        listen();
     }
 
     protected void proceedReadCmd() {
         System.out.println("Read user by:");
-        System.out.println("1 - Id;\n" +
-                "2 - Name;\n" +
-                "3 - Age;");
+        System.out.println("1 - Id;\n2 - Name;\n3 - Age;");
         int num = scanner.nextInt();
         String readBy = null;
 
@@ -89,22 +76,19 @@ public abstract class ConsoleReader {
         System.out.println("enter " + readBy + ": ");
         String value = scanner.next();
         readPeople(readBy, value);
-        listen();
+//        listen();
     }
+
+    protected void proceedUpdateCmd() {
+        System.out.println("Update not implemented yet");
+//        listen();
+    }
+
+    protected abstract void addPerson(int id, String name, int age);
 
     protected abstract void readPeople(String readBy, String value);
 
-    protected void proceedUpdateCmd() {
+    protected abstract void updatePeople(String updateBy, String value);
 
-    }
-
-
-    protected void printTable() throws SQLException {
-        ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM Person");
-        while (resultSet.next()) {
-            System.out.println("id: " + resultSet.getString("id") +
-                    ", name: " + resultSet.getString("name") +
-                    ", age: " + resultSet.getString("age"));
-        }
-    }
+    protected abstract void printTable();
 }

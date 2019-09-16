@@ -10,41 +10,47 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spring-console-reader</artifactId>
+
+    <properties>
+        <org.springframework-version>LATEST</org.springframework-version>
+    </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>RELEASE</version>
+            <version>${org.springframework-version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>RELEASE</version>
+            <version>${org.springframework-version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>RELEASE</version>
+            <version>${org.springframework-version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>RELEASE</version>
+            <version>1.4.199</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>RELEASE</version>
+            <version>${org.springframework-version}</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>mysql</groupId>-->
+            <!--<artifactId>mysql-connector-java</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>console-reader</groupId>
             <artifactId>console-reader</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
-
-
-
 </project>

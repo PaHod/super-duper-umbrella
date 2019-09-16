@@ -1,19 +1,15 @@
 import java.sql.*;
 
-public class Readerrrr extends ConsoleReader {
+public class Readerrrr extends AbstractConsoleReader {
 
-    private static Readerrrr instance;
     protected Connection connection;
     protected Statement statement;
-
-    public Readerrrr() {
-        super();
-    }
 
     public static void main(String[] args) {
         instance = new Readerrrr();
     }
 
+    @Override
     protected void initConnection() {
         try {
             connection = DriverManager.getConnection("jdbc:h2:mem:test", "sa", "");
@@ -32,7 +28,17 @@ public class Readerrrr extends ConsoleReader {
         }
     }
 
+    @Override
+    protected void addPerson(int id, String name, int age) {
+        try {
+            statement.execute("INSERT INTO Person values ('" + id + "', '" + name + "', '" + age + "')");
+            printTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
     protected void readPeople(String readBy, String value) {
         try {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM Person WHERE " + readBy + " = '" + value + "'");
@@ -42,6 +48,25 @@ public class Readerrrr extends ConsoleReader {
                         ", name: " + resultSet.getString("name") +
                         ", age: " + resultSet.getString("age"));
 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void updatePeople(String updateBy, String value) {
+
+    }
+
+    @Override
+    protected void printTable() {
+        ResultSet resultSet = null;
+        try {
+            resultSet = connection.createStatement().executeQuery("SELECT * FROM Person");
+            while (resultSet.next()) {
+                System.out.println("id: " + resultSet.getString("id") +
+                        ", name: " + resultSet.getString("name") +
+                        ", age: " + resultSet.getString("age"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
