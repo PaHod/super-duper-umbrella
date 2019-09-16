@@ -1,24 +1,28 @@
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
-public class ConsoleReader {
+public abstract class ConsoleReader {
 
     protected static final String CREATE_CMD = "create";
     protected static final String READ_CMD = "read";
     protected static final String UPDATE_CMD = "update";
-    protected static Connection connection;
     protected static Scanner scanner;
-    protected static Statement statement;
 
-    public static void main(String[] args) {
+    public ConsoleReader() {
         initConnection();
-
-        scanner = new Scanner(System.in);
+        initScanner();
         listen();
-
     }
 
-    protected static void listen() {
+
+    protected abstract void initConnection();
+
+    protected void initScanner() {
+        scanner = new Scanner(System.in);
+    }
+
+    protected void listen() {
         System.out.println("Type command create, read, update");
         if (scanner.hasNext()) {
             String next = scanner.nextLine();
@@ -26,43 +30,42 @@ public class ConsoleReader {
         }
     }
 
-    protected static void initConnection() {
-        try {
-            connection = DriverManager.getConnection("jdbc:h2:mem:test", "sa", "");
-
-            statement = connection.createStatement();
-            statement.execute("CREATE TABLE Person(id INTEGER, name VARCHAR, age INTEGER)");
-
-            statement.execute("INSERT INTO Person values (0, 'Jora', 29)");
-            statement.execute("INSERT INTO Person values (1, 'Liusia', 23)");
-            statement.execute("INSERT INTO Person values (2, 'Petia', 321)");
-            statement.execute("INSERT INTO Person values (2, 'Tania', 123)");
-
-            printTable();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected static void parseCommand(String next) {
+    protected void parseCommand(String next) {
         next = next.toLowerCase();
         if (CREATE_CMD.equals(next)) {
-            createCmd();
+            proceedCreateCmd();
         } else if (READ_CMD.equals(next)) {
-            readCmd();
+            proceedReadCmd();
         } else if (UPDATE_CMD.equals(next)) {
-            updateCmd();
+            proceedUpdateCmd();
         } else {
             System.out.println("No such command.");
             listen();
         }
     }
 
-    protected static void updateCmd() {
-
+    protected void proceedCreateCmd() {
+        System.out.println("Create new user:");
+        System.out.print("Id: ");
+        int id = scanner.nextInt();
+        System.out.print("\nName: ");
+        String name = scanner.next();
+        System.out.print("\nAge: ");
+        int age = scanner.nextInt();
+        addPeople(id, name, age);
+        listen();
     }
 
-    protected static void readCmd() {
+    protected void addPeople(int id, String name, int age) {
+        try {
+            statement.execute("INSERT INTO Person values ('" + id + "', '" + name + "', '" + age + "')");
+            printTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void proceedReadCmd() {
         System.out.println("Read user by:");
         System.out.println("1 - Id;\n" +
                 "2 - Name;\n" +
@@ -85,42 +88,18 @@ public class ConsoleReader {
 
         System.out.println("enter " + readBy + ": ");
         String value = scanner.next();
-
-        try {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM Person WHERE " + readBy + " = '" + value + "'");
-
-            while (resultSet.next()) {
-                System.out.println("id: " + resultSet.getString("id") +
-                        ", name: " + resultSet.getString("name") +
-                        ", age: " + resultSet.getString("age"));
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        readPeople(readBy, value);
         listen();
     }
 
-    protected static void createCmd() {
-        System.out.println("Create new user:");
-        System.out.print("Id: ");
-        int id = scanner.nextInt();
-        System.out.print("\nName: ");
-        String name = scanner.next();
-        System.out.print("\nAge: ");
-        int age = scanner.nextInt();
-        try {
-            statement.execute("INSERT INTO Person values ('" + id + "', '" + name + "', '" + age + "')");
-            printTable();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        listen();
+    protected abstract void readPeople(String readBy, String value);
+
+    protected void proceedUpdateCmd() {
+
     }
 
 
-    protected static void printTable() throws SQLException {
+    protected void printTable() throws SQLException {
         ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM Person");
         while (resultSet.next()) {
             System.out.println("id: " + resultSet.getString("id") +
