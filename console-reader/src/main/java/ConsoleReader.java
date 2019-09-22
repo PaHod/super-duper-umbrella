@@ -1,20 +1,24 @@
 import java.util.Scanner;
 
-public abstract class AbstractConsoleReader {
+public class ConsoleReader {
+
+    protected final IDatabaseController databaseController;
 
     protected static final String CREATE_CMD = "create";
+
     protected static final String READ_CMD = "read";
     protected static final String UPDATE_CMD = "update";
     protected static Scanner scanner;
-    protected static AbstractConsoleReader instance;
 
-    public AbstractConsoleReader() {
-        initConnection();
-//        initScanner();
-//        listen();
+    public ConsoleReader(IDatabaseController databaseController) {
+        this.databaseController = databaseController;
     }
 
-    protected abstract void initConnection();
+    void init(){
+        databaseController.initConnection();
+        initScanner();
+        listen();
+    }
 
     protected void initScanner() {
         scanner = new Scanner(System.in);
@@ -22,7 +26,7 @@ public abstract class AbstractConsoleReader {
 
     protected void listen() {
         System.out.println("Type command create, read, update");
-        while (scanner.hasNext()) {
+        if (scanner.hasNext()) {
             String next = scanner.nextLine();
             parseCommand(next);
         }
@@ -38,7 +42,7 @@ public abstract class AbstractConsoleReader {
             proceedUpdateCmd();
         } else {
             System.out.println("No such command.");
-//            listen();
+            listen();
         }
     }
 
@@ -50,8 +54,8 @@ public abstract class AbstractConsoleReader {
         String name = scanner.next();
         System.out.print("\nAge: ");
         int age = scanner.nextInt();
-        addPerson(id, name, age);
-//        listen();
+        databaseController.addPerson(id, name, age);
+        listen();
     }
 
     protected void proceedReadCmd() {
@@ -75,20 +79,15 @@ public abstract class AbstractConsoleReader {
 
         System.out.println("enter " + readBy + ": ");
         String value = scanner.next();
-        readPeople(readBy, value);
-//        listen();
+        databaseController.readPeople(readBy, value);
+        listen();
     }
 
     protected void proceedUpdateCmd() {
         System.out.println("Update not implemented yet");
-//        listen();
+        String updateBy = "proceedUpdateCmd";
+        String value = "proceedUpdateCmd";
+        databaseController.updatePeople(updateBy, value);
+        listen();
     }
-
-    protected abstract void addPerson(int id, String name, int age);
-
-    protected abstract void readPeople(String readBy, String value);
-
-    protected abstract void updatePeople(String updateBy, String value);
-
-    protected abstract void printTable();
 }
