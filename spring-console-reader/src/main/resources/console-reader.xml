@@ -5,11 +5,23 @@
        xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-    <bean id="propertyFile" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations" value="h2.connection.properties"/>
+    <!--<bean id="propertyFile" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+        <!--<property name="locations" value="h2.connection.properties"/>-->
+    <!--</bean>-->
+
+    <bean id="consoleReader" class="ConsoleReader">
+        <constructor-arg ref="springDatabaseController"/>
     </bean>
 
-    <context:property-placeholder location="#{systemProperties['DATABASE']?:'h2.connection.properties'}"/>
+    <bean id="springDatabaseController" class="SpringDatabaseController">
+        <constructor-arg ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <context:property-placeholder location="h2.connection.properties"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${connection.driverClassName}"/>
@@ -18,46 +30,42 @@
         <property name="password" value="${connection.password}"/>
     </bean>
 
-    <jee:jndi-lookup id="dataSourceJee"
-                     jndi-name="/jdbc/SpitterDS"
-                     resource-ref="true"/>
+
+    <!--<jee:jndi-lookup id="dataSourceJee"-->
+                     <!--jndi-name="/jdbc/SpitterDS"-->
+                     <!--resource-ref="true"/>-->
 
     <!--<bean id="dataSourcePool" class="org.apache.commons.dbcp.BasicDataSource">-->
-        <!--<property name="driverClassName" value=""/>-->
-        <!--<property name="" value=""/>-->
-        <!--<property name="" value=""/>-->
-        <!--<property name="" value=""/>-->
-        <!--<property name="" value=""/>-->
+    <!--<property name="driverClassName" value=""/>-->
+    <!--<property name="" value=""/>-->
+    <!--<property name="" value=""/>-->
+    <!--<property name="" value=""/>-->
+    <!--<property name="" value=""/>-->
 
 
     <!--</bean>-->
 
-    <bean id="dataSourcePoolDbcp"
-          class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-        <property name="url"
-                  value="jdbc:hsqldb:hsql://localhost/spitter/spitter"/>
-        <property name="username" value="sa"/>
-        <property name="password" value=""/>
-        <property name="initialSize" value="5"/>
-        <property name="maxActive" value="10"/>
-    </bean>
+    <!--<bean id="dataSourcePoolDbcp"-->
+          <!--class="org.apache.commons.dbcp.BasicDataSource">-->
+        <!--<property name="driverClassName" value="org.hsqldb.jdbcDriver"/>-->
+        <!--<property name="url"-->
+                  <!--value="jdbc:hsqldb:hsql://localhost/spitter/spitter"/>-->
+        <!--<property name="username" value="sa"/>-->
+        <!--<property name="password" value=""/>-->
+        <!--<property name="initialSize" value="5"/>-->
+        <!--<property name="maxActive" value="10"/>-->
+    <!--</bean>-->
 
-    <bean id="dataSourcePoolDbcp2"
-          class="org.apache.commons.dbcp2.BasicDataSource">
-        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-        <property name="url"
-                  value="jdbc:hsqldb:hsql://localhost/spitter/spitter"/>
-        <property name="username" value="sa"/>
-        <property name="password" value=""/>
-        <property name="initialSize" value="5"/>
-        <property name="maxTotal" value="10"/>
-    </bean>
+    <!--<bean id="dataSourcePoolDbcp2"-->
+          <!--class="org.apache.commons.dbcp2.BasicDataSource">-->
+        <!--<property name="driverClassName" value="org.hsqldb.jdbcDriver"/>-->
+        <!--<property name="url"-->
+                  <!--value="jdbc:hsqldb:hsql://localhost/spitter/spitter"/>-->
+        <!--<property name="username" value="sa"/>-->
+        <!--<property name="password" value=""/>-->
+        <!--<property name="initialSize" value="5"/>-->
+        <!--<property name="maxTotal" value="10"/>-->
+    <!--</bean>-->
 
 
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <bean id="dataBaseController" class="SpringDatabaseController"/>
 </beans>

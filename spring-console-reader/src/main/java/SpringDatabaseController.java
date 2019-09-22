@@ -10,6 +10,10 @@ public class SpringDatabaseController implements IDatabaseController {
 
     private JdbcTemplate jdbcTemplate;
 
+    public SpringDatabaseController(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -20,11 +24,11 @@ public class SpringDatabaseController implements IDatabaseController {
 
     public void initConnection() {
 
-        execute("CREATE TABLE test.person(id int, name varchar, age int)");
-        execute("INSERT INTO test.person (id, name, age) values (0, 'Jora', 29)");
-        execute("INSERT INTO test.person (id, name, age) values (1, 'Liusia', 23)");
-        execute("INSERT INTO test.person (id, name, age) values (2, 'Petia', 321)");
-        execute("INSERT INTO test.person (id, name, age) values (2, 'Tania', 123)");
+        execute("CREATE TABLE person(id int, name varchar, age int)");
+        execute("INSERT INTO person (id, name, age) values (0, 'Jora', 29)");
+        execute("INSERT INTO person (id, name, age) values (1, 'Liusia', 23)");
+        execute("INSERT INTO person (id, name, age) values (2, 'Petia', 321)");
+        execute("INSERT INTO person (id, name, age) values (2, 'Tania', 123)");
 
         readAll();
     }

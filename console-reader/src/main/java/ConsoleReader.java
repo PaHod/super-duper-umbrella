@@ -14,7 +14,7 @@ public class ConsoleReader {
         this.databaseController = databaseController;
     }
 
-    void init(){
+    void start(){
         databaseController.initConnection();
         initScanner();
         listen();
