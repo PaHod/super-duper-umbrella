@@ -12,7 +12,7 @@
     <artifactId>spring-console-reader</artifactId>
 
     <properties>
-        <org.springframework-version>LATEST</org.springframework-version>
+        <org.springframework-version>5.2.0.RELEASE</org.springframework-version>
     </properties>
 
 
